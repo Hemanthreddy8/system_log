@@ -5,6 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>System Logs and Alerts</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .log-container {
+            width: 90%;
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        #search {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        #log-display {
+            max-height: 300px;
+            overflow-y: auto;
+            text-align: left;
+        }
+        .log-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .log-item.critical {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div class="log-container">
@@ -13,6 +55,41 @@
         <div id="log-display"></div>
     </div>
     
-    <script src="script.js"></script>
+    <script>
+        const logs = [
+            "System started successfully",
+            "User logged in",
+            "Database backup completed",
+            "Network connection lost - reconnecting",
+            "User changed password",
+            "Critical error: Server overload",
+            "New admin user added",
+            "Scheduled maintenance completed",
+            "Warning: High memory usage detected",
+            "Critical alert: Security breach detected"
+        ];
+        
+        function displayLogs(filteredLogs = logs) {
+            const logDisplay = document.getElementById("log-display");
+            logDisplay.innerHTML = "";
+            filteredLogs.forEach(log => {
+                const logItem = document.createElement("div");
+                logItem.className = "log-item";
+                if (log.toLowerCase().includes("critical")) {
+                    logItem.classList.add("critical");
+                }
+                logItem.textContent = log;
+                logDisplay.appendChild(logItem);
+            });
+        }
+        
+        function filterLogs() {
+            const query = document.getElementById("search").value.toLowerCase();
+            const filteredLogs = logs.filter(log => log.toLowerCase().includes(query));
+            displayLogs(filteredLogs);
+        }
+        
+        displayLogs(); // Initial display
+    </script>
 </body>
 </html>
